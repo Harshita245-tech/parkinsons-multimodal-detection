@@ -9,12 +9,18 @@ from tensorflow.keras.applications import MobileNetV2, EfficientNetB0
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input as mobilenet_preprocess
 from tensorflow.keras.applications.efficientnet import preprocess_input as efficientnet_preprocess
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.layers import MultiHeadAttention
+from tensorflow.keras.layers import MultiHeadAttention, Dropout, Dense, Lambda, Concatenate, GlobalAveragePooling1D
 
-model = tf.keras.models.load_model(
-    "fusion_model_best.h5",
-    custom_objects={'MultiHeadAttention': MultiHeadAttention}
-)
+custom_objects = {
+    "MultiHeadAttention": MultiHeadAttention,
+    "Dropout": Dropout,
+    "Dense": Dense,
+    "Lambda": Lambda,
+    "Concatenate": Concatenate,
+    "GlobalAveragePooling1D": GlobalAveragePooling1D
+}
+
+model = tf.keras.models.load_model("fusion_model_best.h5", custom_objects=custom_objects)
 
 # Load MobileNetV2 for drawing feature extraction
 mobilenet_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, pooling='avg', weights='imagenet')
