@@ -9,16 +9,25 @@ from tensorflow.keras.applications import MobileNetV2, EfficientNetB0
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input as mobilenet_preprocess
 from tensorflow.keras.applications.efficientnet import preprocess_input as efficientnet_preprocess
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.layers import MultiHeadAttention, Dropout, Dense, Lambda, Concatenate, GlobalAveragePooling1D
 
+import tensorflow as tf
+from tensorflow.keras.layers import (
+    Dense, Dropout, Lambda, Concatenate, GlobalAveragePooling1D, MultiHeadAttention, Input
+)
+from tensorflow.keras.models import load_model
+
+# Register all custom layers
 custom_objects = {
-    "MultiHeadAttention": MultiHeadAttention,
-    "Dropout": Dropout,
     "Dense": Dense,
+    "Dropout": Dropout,
     "Lambda": Lambda,
     "Concatenate": Concatenate,
-    "GlobalAveragePooling1D": GlobalAveragePooling1D
+    "GlobalAveragePooling1D": GlobalAveragePooling1D,
+    "MultiHeadAttention": MultiHeadAttention
 }
+
+# Load model safely with custom layers
+model = load_model("fusion_model_best.h5", custom_objects=custom_objects)
 
 model = tf.keras.models.load_model("fusion_model_best.h5", custom_objects=custom_objects)
 
