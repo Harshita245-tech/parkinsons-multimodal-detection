@@ -27,8 +27,6 @@ custom_objects = {
 }
 
 # Load model safely with custom layers
-model = load_model("fusion_model_best.h5", custom_objects=custom_objects)
-
 model = tf.keras.models.load_model("fusion_model_best.h5", custom_objects=custom_objects)
 
 # Load MobileNetV2 for drawing feature extraction
