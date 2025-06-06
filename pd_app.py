@@ -26,8 +26,7 @@ custom_objects = {
     "MultiHeadAttention": MultiHeadAttention
 }
 
-# Load model safely with custom layers
-model = tf.keras.models.load_model("fusion_model_best.h5", custom_objects=custom_objects)
+model = load_model("fusion_model_best.keras", custom_objects=custom_objects)
 
 # Load MobileNetV2 for drawing feature extraction
 mobilenet_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, pooling='avg', weights='imagenet')
