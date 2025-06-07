@@ -7,7 +7,6 @@ from tensorflow.keras.applications import MobileNetV2, EfficientNetB0
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input as mobilenet_preprocess
 from tensorflow.keras.applications.efficientnet import preprocess_input as efficientnet_preprocess
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import (
     Dense, Dropout, Lambda, Concatenate,
     GlobalAveragePooling1D, MultiHeadAttention
@@ -18,18 +17,21 @@ def expand_dim(x):
     return tf.expand_dims(x, axis=1)
 
 # Register custom objects (including shape-fix Lambda)
+from tensorflow.keras.models import load_model
+
 custom_objects = {
+    "expand_dim": expand_dim,
     "Dense": Dense,
     "Dropout": Dropout,
     "Lambda": Lambda,
     "Concatenate": Concatenate,
     "GlobalAveragePooling1D": GlobalAveragePooling1D,
-    "MultiHeadAttention": MultiHeadAttention,
-    "expand_dim": expand_dim
+    "MultiHeadAttention": MultiHeadAttention
 }
 
-# 🔁 Load your model (must include 'expand_dim' used in Lambda layers)
+
 model = load_model("fusion_model_best.keras", custom_objects=custom_objects)
+
 
 # Load models for embedding extraction
 mobilenet_model = MobileNetV2(input_shape=(224, 224, 3), include_top=False, pooling='avg', weights='imagenet')
