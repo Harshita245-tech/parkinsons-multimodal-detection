@@ -13,13 +13,18 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras.models import load_model
 
-# Define input expanders
-def expand_dims(x):
-    return tf.expand_dims(x, axis=1)
+# Define named Lambda functions (must match names used during training)
+def expand_dims_voice(x): return tf.expand_dims(x, axis=1)
+def expand_dims_drawing(x): return tf.expand_dims(x, axis=1)
+def expand_dims_mri(x): return tf.expand_dims(x, axis=1)
+def expand_dims_symptom(x): return tf.expand_dims(x, axis=1)
 
-# Register custom layers
+
 custom_objects = {
-    "expand_dims": expand_dims,
+    "expand_dims_voice": expand_dims_voice,
+    "expand_dims_drawing": expand_dims_drawing,
+    "expand_dims_mri": expand_dims_mri,
+    "expand_dims_symptom": expand_dims_symptom,
     "Dense": Dense,
     "Dropout": Dropout,
     "Lambda": Lambda,
